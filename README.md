@@ -1,2 +1,2 @@
 # node_telegram
-Telegram bot server
+Telegram bot server for send data to telegram 
