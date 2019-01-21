@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/server.js"
+    "start": "./node_modules/.bin/nodemon ./src/server.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,12 @@
   "homepage": "https://github.com/tttest25/node_telegram#readme",
   "dependencies": {
     "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+  "nodemonConfig": {
+    "ignore": ["test/*", "docs/*"],
+    "delay": "2500"
   }
 }
