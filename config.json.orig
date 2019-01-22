@@ -5,15 +5,15 @@
         "app_desc": "my app desc",
         "port": 3000,
         "host": "0.0.0.0",
-        "bot_token": "replace"
+        "bot_token": "REPLACE!!!!!!!!!!!",
         "json_indentation": 4,
         "database": "my-app-db-dev"
     },
     "testing": {
         "config_id": "testing",
-        "database": "my-app-db-test"
+        "database": "my-app-db-test",
         "port": 3000,
-        "host": "0.0.0.0",
+        "host": "0.0.0.0"
     },
     "staging": {
         "config_id": "staging",
