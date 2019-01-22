@@ -1,0 +1,30 @@
+{
+    "development": {
+        "config_id": "development",
+        "app_name": "my app",
+        "app_desc": "my app desc",
+        "port": 3000,
+        "host": "0.0.0.0",
+        "bot_token": "replace"
+        "json_indentation": 4,
+        "database": "my-app-db-dev"
+    },
+    "testing": {
+        "config_id": "testing",
+        "database": "my-app-db-test"
+        "port": 3000,
+        "host": "0.0.0.0",
+    },
+    "staging": {
+        "config_id": "staging",
+        "port": 3000,
+        "host": "0.0.0.0",
+        "database": "my-app-db-stag"
+    },
+    "production": {
+        "config_id": "production",
+        "port": 3000,
+        "host": "0.0.0.0",
+        "database": "my-app-db-prod"
+    }
+}
