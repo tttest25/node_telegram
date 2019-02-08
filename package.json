@@ -19,13 +19,18 @@
   },
   "homepage": "https://github.com/tttest25/node_telegram#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "telegraf": "^3.26.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.9"
   },
   "nodemonConfig": {
-    "ignore": ["test/*", "docs/*"],
+    "ignore": [
+      "test/*",
+      "docs/*",
+      "users.json"
+    ],
     "delay": "2500"
   }
 }

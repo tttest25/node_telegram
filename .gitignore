@@ -5,3 +5,4 @@ npm-debug.log
 .DS_Storepack
 package-lock.json
 config.json
+userj.json
