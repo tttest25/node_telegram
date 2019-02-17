@@ -1,8 +1,10 @@
 node_modules
 build
 npm-debug.log
+cert
 .env
 .DS_Storepack
 package-lock.json
 config.json
-userj.json
+users.json
+*.pem

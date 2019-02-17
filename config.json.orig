@@ -2,10 +2,10 @@
     "development": {
         "config_id": "development",
         "app_name": "my app",
-        "app_desc": "my app desc",
+        "app_desc": "my app desc1",
         "port": 3000,
         "host": "0.0.0.0",
-        "bot_token": "REPLACE!!!!!!!!!!!",
+        "bot_token": "574497488:AAF9_Iexzlykssqi2W_c5UrS0fVuoiZj_g0",
         "json_indentation": 4,
         "database": "my-app-db-dev"
     },

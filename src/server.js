@@ -1,6 +1,8 @@
 'use strict';
 
+const fs = require('fs');
 const express = require('express');
+const https = require('https');
 const Telegraf = require('telegraf');
 const Extra = require('telegraf/extra')
 const session = require('telegraf/session')
@@ -75,13 +77,104 @@ bot.launch()
 // Constants
 const PORT = global.gConfig.port;
 const HOST = global.gConfig.host;
+const SSL_KEY = global.gConfig.ssl_key;
+const SSL_CERT = global.gConfig.ssl_cert;
+const SSL_PASSPHRASE =  global.gConfig.ssl_passphrase;
 
 // App
 const app = express();
-app.get('/', (req, res) => {
-  res.send('Hello 4 world\n');
-  util.sendToAdmin('test send to admin');
+
+//  remove header X-Powered-By:express
+app.disable('x-powered-by');
+// or
+// app.use(function (req, res, next) {
+//   res.removeHeader("X-Powered-By");
+//   next();
+// });
+
+// create an error with .status. we
+// can then use the property in our
+// custom error handler (Connect repects this prop as well)
+
+function error(status, msg) {
+  var err = new Error(msg);
+  err.status = status;
+  return err;
+}
+
+// here we validate the API key,
+// by mounting this middleware to /api
+// meaning only paths prefixed with "/api"
+// will cause this middleware to be invoked
+
+app.use('/api', function(req, res, next){
+  var key = req.query['api-key'];
+
+  // key isn't present
+  if (!key) return next(error(400, 'api key required'));
+
+  // key is invalid
+  if (!~apiKeys.indexOf(key)) return next(error(401, 'invalid api key'));
+
+  // all good, store req.key for route access
+  req.key = key;
+  next();
 });
+
+// map of valid api keys, typically mapped to
+// account info with some sort of database like redis.
+// api keys do _not_ serve as authentication, merely to
+// track API usage or help prevent malicious behavior etc.
+
+var apiKeys = ['agppass'];
+
+
+// we now can assume the api key is valid,
+// and simply expose the data
+
+var users = [
+  { name: 'tobi' }
+, { name: 'loki' }
+, { name: 'jane' }
+];
+
+// example: http://localhost:3000/api/users/?api-key=agppass
+app.get('/api/users', function(req, res, next){
+  res.send(users);
+});
+
+// example: http://localhost:3000/api/users/?api-key=agppass
+app.get('/api/sendtoadmin', function(req, res, next){
+  var resp ={'is_error':0, error: 'message', data: {} };
+  // var msg =  req.query.msg.toString() | 'Default message';
+  var msg =  !req.query.msg ? 'Default message' : req.query.msg;
+  util.sendToAdmin(`sendtoadmin: ${msg.toString()}`);
+  Object.assign(resp.data, {'message':msg});
+  res.json(resp);
+});
+
+
+// middleware with an arity of 4 are considered
+// error handling middleware. When you next(err)
+// it will be passed through the defined middleware
+// in order, but ONLY those with an arity of 4, ignoring
+// regular middleware.
+app.use(function(err, req, res, next){
+  // whatever you want here, feel free to populate
+  // properties on `err` to treat it differently in here.
+  res.status(err.status || 500);
+  res.send({ 'is_error':1, error: err.message });
+});
+
+// our custom JSON 404 middleware. Since it's placed last
+// it will be the last middleware called, if all others
+// invoke next() and do not respond.
+app.use(function(req, res){
+  res.status(404);
+  util.sendToAdmin(`err authorize: ${req.ip}`);
+  res.send({ 'is_error':0, error: "404.Authorize and use TLS" });
+});
+
 
 
 process.on('unhandledRejection', (e) => {
@@ -94,5 +187,13 @@ process.on('uncaughtException', (e) => {
 //   sendToAdmin(`Uncaught Exception! ${e.message}`);
 });
 
-app.listen(PORT, HOST);
-console.log(`-> Running 3 on http://${HOST}:${PORT}`);
+// https://hackernoon.com/set-up-ssl-in-nodejs-and-express-using-openssl-f2529eab5bb
+// we will pass our 'app' to 'https' server
+https.createServer({
+  key: fs.readFileSync(SSL_KEY,   'utf8'),
+  cert: fs.readFileSync(SSL_CERT, 'utf8'),
+  passphrase: SSL_PASSPHRASE
+}, app)
+.listen(PORT, HOST);
+// app.listen(PORT, HOST);
+console.log(`-> Running 3 on https://${HOST}:${PORT}`);

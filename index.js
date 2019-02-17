@@ -1,2 +1,5 @@
-let count=2;
-console.log('count: %d', count);
+'use strict';
+
+console.log('Start main server:');
+
+require('./src/server.js');
