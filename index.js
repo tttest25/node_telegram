@@ -1,5 +1,5 @@
 'use strict';
 
-console.log('Start main server:');
+console.log('Start main server:!');
 
 require('./src/server.js');

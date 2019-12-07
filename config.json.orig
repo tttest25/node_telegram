@@ -1,11 +1,15 @@
 {
     "development": {
         "config_id": "development",
-        "app_name": "my app",
-        "app_desc": "my app desc1",
+        "app_name": "Telegram_bot",
+        "app_desc": "Telegram_bot for ",
         "port": 3000,
         "host": "0.0.0.0",
-        "bot_token": "574497488:AAF9_Iexzlykssqi2W_c5UrS0fVuoiZj_g0",
+        "ssl_key":"/app/cert/key.pem",
+        "ssl_cert":"/app/cert/cert.pem",
+        "ssl_passphrase":"qweasd123",
+        "bot_token": "REPLACE",
+        "ADMIN_ID": 0000000,
         "json_indentation": 4,
         "database": "my-app-db-dev"
     },

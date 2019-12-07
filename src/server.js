@@ -18,7 +18,7 @@ const environmentConfig = configObj[environment];
 const finalConfig = Object.assign(defaultConfig, environmentConfig);
 //const Config = config.development;
 
-// as a best practice
+// as a best practice best
 // all global variables should be referenced via global. syntax
 // and their names should always begin with g
 global.gConfig = finalConfig;
@@ -196,4 +196,4 @@ https.createServer({
 }, app)
 .listen(PORT, HOST);
 // app.listen(PORT, HOST);
-console.log(`-> Running 3 on https://${HOST}:${PORT}`);
+console.log(`-> Running bot on https://${HOST}:${PORT}`);
